@@ -1,0 +1,14 @@
+Requirements:
+- PHP 5+
+- Google Protocol Buffers package (only to develop, will run without it)
+- Java 7+
+
+To run (Linux):
+unzip PBuff.zip
+cd PBuff
+./gradlew jar
+
+java -jar build/libs/protobuff-0.0.1-SNAPSHOT.jar #run server
+
+cd PHP
+./script

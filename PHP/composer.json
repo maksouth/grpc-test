@@ -1,0 +1,6 @@
+{
+    "require": {
+        "ext-grpc": "*",
+        "grpc/grpc": "v1.0.1"
+    }
+}

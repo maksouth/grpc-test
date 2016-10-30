@@ -1,0 +1,83 @@
+group 'protobuff'
+version '0.0.1-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'com.google.protobuf'
+<<<<<<< HEAD
+
+=======
+apply plugin: 'com.google.osdetector'
+>>>>>>> fd5b2bd4a70a6de9537b2182b486acadfcb9dfab
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.0'
+<<<<<<< HEAD
+    }
+}
+
+=======
+        classpath 'com.google.gradle:osdetector-gradle-plugin:1.4.0'
+    }
+}
+
+def tcnative_classifier = osdetector.classifier;
+if (osdetector.os == "linux" && osdetector.release.isLike("fedora")) {
+    tcnative_classifier += "-fedora";
+}
+
+>>>>>>> fd5b2bd4a70a6de9537b2182b486acadfcb9dfab
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'io.grpc:grpc-netty:1.0.1'
+    compile 'io.grpc:grpc-protobuf:1.0.1'
+    compile 'io.grpc:grpc-stub:1.0.1'
+<<<<<<< HEAD
+=======
+    compile 'io.netty:netty-tcnative:1.1.33.Fork23:' + tcnative_classifier
+>>>>>>> fd5b2bd4a70a6de9537b2182b486acadfcb9dfab
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.0.2'
+    }
+
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.0.1'
+        }
+    }
+
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.kambius.protobuff.HelloServer'
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+// hack to enable syntax highlighting in IDE
+// it will compile without this
+sourceSets {
+    generated {
+        java.srcDir "${buildDir}/generated/source/proto/main/grpc"
+        java.srcDir "${buildDir}/generated/source/proto/main/java"
+    }
+}
