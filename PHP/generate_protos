@@ -1,2 +1,2 @@
 #!/bin/bash
-protoc-gen-php -i . -o . ./message.proto
+protoc-gen-php -i . -o . ./greeter.proto

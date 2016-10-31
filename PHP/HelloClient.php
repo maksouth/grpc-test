@@ -1,29 +1,31 @@
 #!/bin/php
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
-require_once __DIR__ . '/message.php';
+require_once __DIR__ . "/vendor/autoload.php";
+require_once __DIR__ . "/greeter.php";
 
-<<<<<<< HEAD
-$client = new sample\GreeterClient('localhost:8080', [
-    'credentials' => Grpc\ChannelCredentials::createInsecure(),
-=======
+$host = "localhost";
+$port = 8080;
+
+// configure ssl context to secure connection
 $credentials = Grpc\ChannelCredentials::createSsl(
-    file_get_contents(__DIR__ . '/certificates/server.crt'),
-    file_get_contents(__DIR__ . '/certificates/client.new.key'),
-    file_get_contents(__DIR__ . '/certificates/client.crt')
+    file_get_contents(__DIR__ . "/certificates/server.crt"),
+    file_get_contents(__DIR__ . "/certificates/client.new.key"),
+    file_get_contents(__DIR__ . "/certificates/client.crt")
 );
 
-$client = new sample\GreeterClient('localhost:8080', [
-    'credentials' => $credentials,
->>>>>>> fd5b2bd4a70a6de9537b2182b486acadfcb9dfab
-]);
+echo "Connecting to server\n";
+$client = new test\GreeterClient($host . ":" . $port, ["credentials" => $credentials]);
 
-$request = new sample\HelloRequest();
-$request->setText('hello');
+$name = !empty($argv[1]) ? $argv[1] : 'world';
+echo "Sending: " . $name . "\n";
 
+$request = new test\HelloRequest();
+$request->setName($name);
+
+// send request to server
 list($reply, $status) = $client->SayHello($request)->wait();
 
-echo $reply->getText() . "\n";
+echo "Received: " . $reply->getGreeting() . "\n";
 
 ?>
